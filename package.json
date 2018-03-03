@@ -1,0 +1,22 @@
+{
+  "name": "lego-boost-ai",
+  "version": "0.1.0",
+  "description": "AI for Lego Boost",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "lego",
+    "boost",
+    "movehub",
+    "ai",
+    "control"
+  ],
+  "author": "Tomi Tuhkanen",
+  "license": "MIT",
+  "dependencies": {
+    "keypress": "^0.2.1",
+    "movehub": "^0.3.2"
+  }
+}
