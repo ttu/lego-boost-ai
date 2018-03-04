@@ -62,7 +62,9 @@ class HubControl {
     await this.hub.connectAsync();
     this.device.connected = true;
 
-    this.hub.led("red");
+    await this.hub.ledAsync("red");
+    await this.hub.ledAsync("yellow");
+    await this.hub.ledAsync("green");
   }
 
   setNextState(state) {

@@ -1,10 +1,10 @@
 const { Boost, Hub } = require('../movehub/movehub');
 
-const waitAsync = function(valueName, timeoutMs = 0) {
-  if (this[valueName]) return Promise.resolve(this[valueName]);
+const waitAsync = function(valueName, compareFunc = (valueName) => this[valueName], timeoutMs = 0) {
+  if (compareFunc.bind(this)(valueName)) return Promise.resolve(this[valueName]);
 
   return new Promise((resolve, reject) => {
-    setTimeout(async () => resolve(await waitAsync.bind(this)(valueName)), timeoutMs + 100);
+    setTimeout(async () => resolve(await waitAsync.bind(this)(valueName, compareFunc, timeoutMs)), timeoutMs + 100);
   });
 };
 
@@ -16,6 +16,15 @@ Hub.prototype.connectAsync = function() {
 
 // TODO: Set needed listeners
 Hub.prototype.afterInitialization = () => {};
+
+Hub.prototype.ledAsync = function(color) {
+  return new Promise((resolve, reject) => {
+    this.led(color, () => {
+      // Callback is executed faster than Boost has time to change the color
+      setTimeout(resolve, 250);
+    });
+  });
+}
 
 Boost.prototype.bleReadyAsync = function() {
   return new Promise(async (resolve, reject) => {
