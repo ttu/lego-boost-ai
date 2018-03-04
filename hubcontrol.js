@@ -5,7 +5,6 @@ class HubControl {
     this.hub = null;
     this.device = deviceInfo;
     this.control = controlData;
-    this.prevDevice = { ...this.device };
     this.prevControl = { ...this.control };
 
     this.states = {
@@ -80,8 +79,8 @@ class HubControl {
   update() {
     this.currentState();
 
-    this.prevDevice = { ...this.device };
     this.prevControl = { ...this.control };
+    this.prevControl.tilt = { ...this.control.tilt };
   }
 }
 
