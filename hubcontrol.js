@@ -67,6 +67,12 @@ class HubControl {
     await this.hub.ledAsync('green');
   }
 
+  async disconnect() {
+    if (this.device.connected) {
+      await this.hub.disconnectAsync();      
+    }
+  }
+
   setNextState(state) {
     this.currentState = this.states[state];
   }

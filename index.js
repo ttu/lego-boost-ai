@@ -26,6 +26,8 @@ const controlData = {
   tilt: { roll: 0, pitch: 0 }
 };
 
+let uiUpdaterInteral = null;
+
 function printUI() {
   console.log('\x1Bc');
   console.log(JSON.stringify(deviceInfo, null, 1));
@@ -39,6 +41,10 @@ process.stdin.on('keypress', async (str, key) => {
   if (!key || key.name === 'return' || key.name === 'enter') {
     return;
   } else if (key.ctrl && key.name === 'c') {
+    clearInterval(uiUpdaterInteral);
+    console.log('Disconnecting...');    
+    await hubControl.disconnect();
+    console.log('Disconnected');
     process.exit();
   } else {
     controlData.input = key.name;
@@ -51,7 +57,7 @@ process.stdin.on('keypress', async (str, key) => {
 const hubControl = new HubControl(deviceInfo, controlData);
 hubControl.setNextState('Manual');
 hubControl.start().then(() => {
-  setInterval(() => {
+  uiUpdaterInteral = setInterval(() => {
     printUI();
     hubControl.update();
   }, 500);

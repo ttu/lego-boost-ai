@@ -14,8 +14,15 @@ Hub.prototype.connectAsync = function() {
   return waitAsync.bind(this)('connected');
 };
 
-// TODO: Set needed listeners
-Hub.prototype.afterInitialization = () => {};
+Hub.prototype.disconnectAsync = function() {
+  this.disconnect();
+  return waitAsync.bind(this)('hubDisconnected');
+};
+
+Hub.prototype.afterInitialization = function() {
+  this.hubDisconnected = null;
+  this.on('disconnect', () => (this.hubDisconnected = true));  
+};
 
 Hub.prototype.ledAsync = function(color) {
   return new Promise((resolve, reject) => {
