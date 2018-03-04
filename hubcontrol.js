@@ -1,4 +1,4 @@
-const boost = require("./movehub-async/movehub-async");
+const boost = require('./movehub-async/movehub-async');
 
 class HubControl {
   constructor(deviceInfo, controlData) {
@@ -15,7 +15,7 @@ class HubControl {
       Manual: manual.bind(this)
     };
 
-    this.currentState = this.states["Drive"];
+    this.currentState = this.states['Drive'];
   }
 
   async start() {
@@ -23,38 +23,38 @@ class HubControl {
     const connectDetails = await boost.hubFoundAsync();
     this.hub = await boost.connectAsync(connectDetails);
 
-    this.hub.on("error", err => {
+    this.hub.on('error', err => {
       this.device.err = err;
     });
 
-    this.hub.on("disconnect", () => {
+    this.hub.on('disconnect', () => {
       this.device.connected = false;
     });
 
-    this.hub.on("distance", distance => {
+    this.hub.on('distance', distance => {
       this.device.distance = distance;
     });
 
-    this.hub.on("rssi", rssi => {
+    this.hub.on('rssi', rssi => {
       this.device.rssi = rssi;
     });
 
-    this.hub.on("port", portObject => {
+    this.hub.on('port', portObject => {
       const { port, action } = portObject;
       this.device.ports[port].action = action;
     });
 
-    this.hub.on("color", color => {
+    this.hub.on('color', color => {
       this.device.color = color;
     });
 
-    this.hub.on("tilt", tilt => {
+    this.hub.on('tilt', tilt => {
       const { roll, pitch } = tilt;
       this.device.tilt.roll = roll;
       this.device.tilt.pitch = pitch;
     });
 
-    this.hub.on("rotation", rotation => {
+    this.hub.on('rotation', rotation => {
       const { port, angle } = rotation;
       this.device.ports[port].angle = angle;
     });
@@ -62,9 +62,9 @@ class HubControl {
     await this.hub.connectAsync();
     this.device.connected = true;
 
-    await this.hub.ledAsync("red");
-    await this.hub.ledAsync("yellow");
-    await this.hub.ledAsync("green");
+    await this.hub.ledAsync('red');
+    await this.hub.ledAsync('yellow');
+    await this.hub.ledAsync('green');
   }
 
   setNextState(state) {
@@ -82,7 +82,7 @@ class HubControl {
 function turn() {
   if (this.device.distance > 100) {
     this.control.turnAngle = 0;
-    this.setNextState("Drive");
+    this.setNextState('Drive');
     return;
   }
 
@@ -93,7 +93,7 @@ function turn() {
 
 function drive() {
   if (this.device.distance < 100) {
-    this.setNextState("Turn");
+    this.setNextState('Turn');
     return;
   }
 
@@ -129,11 +129,11 @@ function manual() {
   }
 
   if (this.control.tilt.pitch != this.prevControl.tilt.pitch) {
-    this.hub.motorTime("C", 60, this.control.tilt.pitch);
+    this.hub.motorTime('C', 60, this.control.tilt.pitch);
   }
 
   if (this.control.tilt.roll != this.prevControl.tilt.roll) {
-    this.hub.motorTime("D", 60, this.control.tilt.roll);
+    this.hub.motorTime('D', 60, this.control.tilt.roll);
   }
 }
 
