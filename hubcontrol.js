@@ -1,4 +1,6 @@
 const boost = require('./movehub-async/movehub-async');
+const manual = require('./states/manual');
+const { stop, back, drive, turn } = require('./states/ai');
 
 class HubControl {
   constructor(deviceInfo, controlData) {
@@ -11,6 +13,7 @@ class HubControl {
       Turn: turn.bind(this),
       Drive: drive.bind(this),
       Stop: stop.bind(this),
+      Back: back.bind(this),
       Manual: manual.bind(this)
     };
 
@@ -73,6 +76,7 @@ class HubControl {
   }
 
   setNextState(state) {
+    this.control.state = state;
     this.currentState = this.states[state];
   }
 
@@ -81,64 +85,6 @@ class HubControl {
 
     this.prevControl = { ...this.control };
     this.prevControl.tilt = { ...this.control.tilt };
-  }
-}
-
-function turn() {
-  if (this.device.distance > 100) {
-    this.control.turnAngle = 0;
-    this.setNextState('Drive');
-    return;
-  }
-
-  this.control.turnAngle = this.control.turnAngle - 10;
-
-  this.hub.motorTimeAngle(180, 100, -100);
-}
-
-function drive() {
-  if (this.device.distance < 100) {
-    this.setNextState('Turn');
-    return;
-  }
-
-  this.hub.motorTimeMulti(1, 100, 100);
-}
-
-function stop() {
-  this.control.speed = 0;
-  this.control.turnAngle = 0;
-
-  this.hub.motorTimeAngle(0, 0, 0);
-}
-
-function manual() {
-  if (this.control.speed != this.prevControl.speed || this.control.turnAngle != this.prevControl.turnAngle) {
-    let motorA = this.control.speed + (this.control.turnAngle > 0 ? Math.abs(this.control.turnAngle) : 0);
-    let motorB = this.control.speed + (this.control.turnAngle < 0 ? Math.abs(this.control.turnAngle) : 0);
-    
-    if (motorA > 100) {
-      motorB -= motorA - 100;
-      motorA = 100;
-    }
-
-    if (motorB > 100) {
-      motorA -= motorB - 100;
-      motorB = 100;
-    }
-
-    this.control.motorA = motorA;
-    this.control.motorB = motorB;
-
-    this.hub.motorTimeMulti(60, motorA, motorB);
-  }
-
-  if (this.control.tilt.pitch != this.prevControl.tilt.pitch) {
-    this.hub.motorTime('C', 60, this.control.tilt.pitch);
-  }
-
-  if (this.control.tilt.roll != this.prevControl.tilt.roll) {
-    this.hub.motorTime('D', 60, this.control.tilt.roll);
   }
 }
 

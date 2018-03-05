@@ -30,6 +30,9 @@ function stepByStep(controlData) {
         controlData.tilt.roll = 0;
         controlData.tilt.pitch = 0;
         break;
+      case "t":
+        controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
+        break;
     }
   
     checkMaximums(controlData);
@@ -94,6 +97,9 @@ function manualDrive(controlData) {
         controlData.turnAngle = 0;
         controlData.tilt.roll = 0;
         controlData.tilt.pitch = 0;
+        break;
+      case "t":
+        controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
         break;
     }
   

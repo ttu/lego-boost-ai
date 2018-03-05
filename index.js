@@ -48,8 +48,11 @@ process.stdin.on('keypress', async (str, key) => {
     process.exit();
   } else {
     controlData.input = key.name;
-    // inputs.stepByStep(controlData);
     inputs.manualDrive(controlData);
+    if (controlData.forceState){
+      hubControl.setNextState(controlData.forceState);
+      controlData.forceState = null;
+    }
     printUI();
   }
 });
