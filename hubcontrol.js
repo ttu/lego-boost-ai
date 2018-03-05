@@ -76,6 +76,7 @@ class HubControl {
   }
 
   setNextState(state) {
+    this.control.driveInput = null;                
     this.control.state = state;
     this.currentState = this.states[state];
   }

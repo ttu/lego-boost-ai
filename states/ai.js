@@ -1,13 +1,13 @@
-const MIN_DISTANCE = 50;
+const MIN_DISTANCE = 75;
 const OK_DISTANCE = 100;
 
 const EXECUTE_TIME_SEC = 60;
 const CHECK_TIME_MS = 59000;
 
 // Speeds must be betwee -100 and 100
-const TURN_SPEED = 10;
-const DRIVE_SPEED = 15;
-const REVERSE_SPEED = -12;
+const TURN_SPEED = 20;
+const DRIVE_SPEED = 20;
+const REVERSE_SPEED = -15;
 
 function turn() {
     if (this.device.distance < MIN_DISTANCE){
@@ -20,20 +20,21 @@ function turn() {
   
     // TODO: Check turn direction
 
-    const direction = 'right';
-    const motorA = direction == 'right' ? TURN_SPEED : 0;
-    const motorB = direction == 'right' ? 0 : TURN_SPEED;
+    if (!this.control.driveInput || Date.now() - this.control.driveInput > CHECK_TIME_MS) {
+        const direction = 'right';
+        const motorA = direction == 'right' ? TURN_SPEED : 0;
+        const motorB = direction == 'right' ? 0 : TURN_SPEED;
 
-    this.hub.motorTimeMulti(EXECUTE_TIME_SEC, motorA, motorB);
+        this.control.driveInput = Date.now();
+        this.hub.motorTimeMulti(EXECUTE_TIME_SEC, motorA, motorB);
+    }
 }
   
 function drive() {
     if (this.device.distance < MIN_DISTANCE){
-      this.control.driveInput = null;    
       this.setNextState('Back');
       return;
     } else if (this.device.distance < OK_DISTANCE) {
-      this.control.driveInput = null;
       this.setNextState('Turn');
       return;
     }
@@ -46,7 +47,6 @@ function drive() {
   
 function back() {
     if (this.device.distance > OK_DISTANCE) {
-      this.control.driveInput = null;
       this.setNextState('Turn');
       return;
     }

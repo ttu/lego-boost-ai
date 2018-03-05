@@ -63,5 +63,5 @@ hubControl.start().then(() => {
   uiUpdaterInteral = setInterval(() => {
     printUI();
     hubControl.update();
-  }, 500);
+  }, 100);
 });
