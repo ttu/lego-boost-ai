@@ -1,6 +1,6 @@
 const keypress = require('keypress');
-const HubControl = require('./src/hubcontrol');
-const inputs = require('./src/inputModes');
+const HubControl = require('./src/hub-control');
+const inputs = require('./src/input-modes');
 
 const deviceInfo = {
   ports: {
