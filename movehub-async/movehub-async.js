@@ -1,4 +1,4 @@
-const { Boost, Hub } = require('../movehub/movehub');
+const { Boost, Hub } = require('movehub/movehub');
 
 const waitAsync = function(valueName, compareFunc = (valueName) => this[valueName], timeoutMs = 0) {
   if (compareFunc.bind(this)(valueName)) return Promise.resolve(this[valueName]);
