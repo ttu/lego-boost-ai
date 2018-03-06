@@ -1,4 +1,4 @@
-const boost = require('./movehub-async/movehub-async');
+const boost = require('../movehub-async/movehub-async');
 const manual = require('./states/manual');
 const { stop, back, drive, turn } = require('./states/ai');
 

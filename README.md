@@ -1,12 +1,35 @@
 # Lego Boost AI and manual control
 
-TODO: Simple AI for Lego Boost. Now only manual control support.
+Simple AI for Lego Boost.
+
+* AI mode
+* Manual control mode
+
+## Execute
+
+```sh
+$ npm start
+```
+
+### Manual mode controls
+
+```
+t               toggle between AI / Manual mode
+arrow keys      speed and direction (motor A & B)
+q, w            roll (motor C)
+a, s            pitch (motor D)
+z               full stop
+```
 
 ## Setup
 
-### Prerequisites for Windows
+### Linux / macOS
 
-Install https://www.npmjs.com/package/windows-build-tools
+Check Noble [prerequisites](https://github.com/noble/noble#prerequisites).
+
+### Windows
+
+Install [Windows build tools](https://www.npmjs.com/package/windows-build-tools) from npm.
 
 ```sh
 $ npm install --global windows-build-tools
@@ -21,10 +44,6 @@ If your adapter is not in the list of supported [adapters](https://github.com/no
 $ set BLUETOOTH_HCI_SOCKET_USB_VID=0x1286
 $ set BLUETOOTH_HCI_SOCKET_USB_PID=0x204C
 ```
-
-#### Linux / macOS
-
-Check Noble [prerequisites](https://github.com/noble/noble#prerequisites)
 
 ## Links
 
