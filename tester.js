@@ -1,9 +1,7 @@
-const boost = require('./movehub-async/movehub-async');
+const boost = require('movehub-async');
 
 (async () => {
-    const bleRady = await boost.bleReadyAsync();
-    const connectDetails = await boost.hubFoundAsync();
-    const hub = await boost.connectAsync(connectDetails);
+    const hub = await boost.getHubAsync();
 
     hub.on('error', err => {
         console.log('error', error);
@@ -36,8 +34,6 @@ const boost = require('./movehub-async/movehub-async');
     hub.on('rotation', rotation => {
         console.log('rotation', JSON.stringify(rotation, null, 1));
     });
-
-    await hub.connectAsync();
 
     // Insert commands here
     await hub.ledAsync('red');
