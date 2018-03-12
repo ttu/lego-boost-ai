@@ -1,6 +1,6 @@
 const boost = require('movehub-async');
 const manual = require('./states/manual');
-const { stop, back, drive, turn } = require('./states/ai');
+const { stop, back, drive, turn, seek } = require('./states/ai');
 
 class HubControl {
   constructor(deviceInfo, controlData) {
@@ -14,16 +14,16 @@ class HubControl {
       Drive: drive.bind(this),
       Stop: stop.bind(this),
       Back: back.bind(this),
-      Manual: manual.bind(this)
+      Manual: manual.bind(this),
+      Seek: seek.bind(this)
     };
 
     this.currentState = this.states['Drive'];
   }
 
   async start() {
-    const bleRady = await boost.bleReadyAsync();
-    const connectDetails = await boost.hubFoundAsync();
-    this.hub = await boost.connectAsync(connectDetails);
+    this.hub = await boost.getHubAsync();
+    this.device.connected = true;
 
     this.hub.on('error', err => {
       this.device.err = err;
@@ -61,9 +61,6 @@ class HubControl {
       this.device.ports[port].angle = angle;
     });
 
-    await this.hub.connectAsync();
-    this.device.connected = true;
-
     await this.hub.ledAsync('red');
     await this.hub.ledAsync('yellow');
     await this.hub.ledAsync('green');
@@ -71,12 +68,12 @@ class HubControl {
 
   async disconnect() {
     if (this.device.connected) {
-      await this.hub.disconnectAsync();      
+      await this.hub.disconnectAsync();
     }
   }
 
   setNextState(state) {
-    this.control.driveInput = null;                
+    this.control.driveInput = null;
     this.control.state = state;
     this.currentState = this.states[state];
   }
@@ -84,8 +81,10 @@ class HubControl {
   update() {
     this.currentState();
 
+    // TODO: Deep clone
     this.prevControl = { ...this.control };
     this.prevControl.tilt = { ...this.control.tilt };
+    this.prevDevice = { ...this.device };
   }
 }
 
