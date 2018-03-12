@@ -106,6 +106,46 @@ function manualDrive(controlData) {
     checkMaximums(controlData);
 }
 
+// TODO: Handle for keyup/keydown events, so control can handle forward and turning at the same time
+function arcadeDrive(controlData) {
+  controlData.speed = 0;
+  controlData.turnAngle = 0;
+  controlData.tilt.roll = 0;
+  controlData.tilt.pitch = 0;
+
+  switch (controlData.input) {
+    case "up":
+      controlData.speed = 20;
+      break;
+    case "down":
+      controlData.speed = -20;
+      break;
+    case "left":
+      controlData.turnAngle = -10;
+      break;
+    case "right":
+      controlData.turnAngle = 10;
+      break;
+    case "q":
+      controlData.tilt.roll = -10;
+      break;
+    case "w":
+      controlData.tilt.roll = 10;
+      break;
+    case "a":
+      controlData.tilt.pitch = -10;
+      break;
+    case "s":
+      controlData.tilt.pitch = 10;
+      break;
+    case "z":
+      break;
+    case "t":
+      controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
+      break;
+  }
+}
+
 function checkMaximums(controlData){
   // These values have to be between -100 and 100
   controlData.speed = controlData.speed > 100 ? 100 : controlData.speed;
@@ -120,5 +160,6 @@ function checkMaximums(controlData){
 
 module.exports = {
     stepByStep: stepByStep,
-    manualDrive: manualDrive   
+    manualDrive: manualDrive,
+    arcadeDrive: arcadeDrive
 }
