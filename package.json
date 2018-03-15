@@ -4,7 +4,9 @@
   "description": "AI for Lego Boost",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "npm run eslint",
+    "eslint": "eslint index.js tester.js ./src"
   },
   "keywords": [
     "lego",
@@ -19,5 +21,8 @@
     "keypress": "^0.2.1",
     "movehub": "^0.4.0",
     "movehub-async": "^0.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2"
   }
 }
