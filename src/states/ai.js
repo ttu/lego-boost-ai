@@ -11,8 +11,8 @@ const REVERSE_SPEED = -15;
 
 function seek() {
   if (!this.control.driveInput || Date.now() - this.control.driveInput > CHECK_TIME_MS) {
-      this.control.driveInput = Date.now();
-      this.hub.motorTimeMulti(EXECUTE_TIME_SEC, TURN_SPEED, 0);
+    this.control.driveInput = Date.now();
+    this.hub.motorTimeMulti(EXECUTE_TIME_SEC, TURN_SPEED, 0);
   } 
   
   if (Date.now() - this.control.driveInput < 250)
