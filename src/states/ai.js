@@ -4,15 +4,16 @@ const OK_DISTANCE = 100;
 const EXECUTE_TIME_SEC = 60;
 const CHECK_TIME_MS = 59000;
 
-// Speeds must be betwee -100 and 100
+// Speeds must be between -100 and 100
 const TURN_SPEED = 20;
+const TURN_SPEED_OPPOSITE = -10;
 const DRIVE_SPEED = 20;
 const REVERSE_SPEED = -15;
 
 function seek() {
   if (!this.control.driveInput || Date.now() - this.control.driveInput > CHECK_TIME_MS) {
     this.control.driveInput = Date.now();
-    this.hub.motorTimeMulti(EXECUTE_TIME_SEC, TURN_SPEED, 0);
+    this.hub.motorTimeMulti(EXECUTE_TIME_SEC, TURN_SPEED, TURN_SPEED_OPPOSITE);
   } 
   
   if (Date.now() - this.control.driveInput < 250)
@@ -39,8 +40,8 @@ function turn() {
   }
 
   if (!this.control.driveInput || Date.now() - this.control.driveInput > CHECK_TIME_MS) {
-    const motorA = this.control.turnDirection == 'right' ? TURN_SPEED : 0;
-    const motorB = this.control.turnDirection == 'right' ? 0 : TURN_SPEED;
+    const motorA = this.control.turnDirection == 'right' ? TURN_SPEED : TURN_SPEED_OPPOSITE;
+    const motorB = this.control.turnDirection == 'right' ? TURN_SPEED_OPPOSITE : TURN_SPEED;
 
     this.control.driveInput = Date.now();
     this.hub.motorTimeMulti(EXECUTE_TIME_SEC, motorA, motorB);
