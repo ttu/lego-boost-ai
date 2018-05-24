@@ -33,6 +33,9 @@ function stepByStep(controlData) {
   case "t":
     controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
     break;
+  case "y":
+    controlData.updateInputMode = manualDrive;
+    break;
   }
   
   checkMaximums(controlData);
@@ -101,6 +104,9 @@ function manualDrive(controlData) {
   case "t":
     controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
     break;
+  case "y":
+    controlData.updateInputMode = arcadeDrive;
+    break;
   }
   
   checkMaximums(controlData);
@@ -142,6 +148,9 @@ function arcadeDrive(controlData) {
     break;
   case "t":
     controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
+    break;
+  case "y":
+    controlData.updateInputMode = stepByStep;
     break;
   }
 }

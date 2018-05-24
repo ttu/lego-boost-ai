@@ -23,10 +23,13 @@ const controlData = {
   input: null,
   speed: 0,
   turnAngle: 0,
-  tilt: { roll: 0, pitch: 0 }
+  tilt: { roll: 0, pitch: 0 },
+  forceState: null,
+  updateInputMode: null
 };
 
 let uiUpdaterInteral = null;
+let selectedInputMode = inputs.arcadeDrive;
 
 function printUI() {
   console.log('\x1Bc');
@@ -48,11 +51,17 @@ process.stdin.on('keypress', async (str, key) => {
     process.exit();
   } else {
     controlData.input = key.name;
-    inputs.manualDrive(controlData);
+    selectedInputMode(controlData);
+    
     if (controlData.forceState){
       hubControl.setNextState(controlData.forceState);
       controlData.forceState = null;
     }
+    if (controlData.updateInputMode){
+      selectedInputMode = controlData.updateInputMode;
+      controlData.updateInputMode = null;
+    }
+    
     printUI();
   }
 });
