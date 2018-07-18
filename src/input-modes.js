@@ -1,41 +1,41 @@
 function stepByStep(controlData) {
   switch (controlData.input) {
-  case "up":
-    controlData.speed += 10;
-    break;
-  case "down":
-    controlData.speed -= 10;
-    break;
-  case "left":
-    controlData.turnAngle -= 10;
-    break;
-  case "right":
-    controlData.turnAngle += 10;
-    break;
-  case "q":
-    controlData.tilt.roll -= 10;
-    break;
-  case "w":
-    controlData.tilt.roll += 10;
-    break;
-  case "a":
-    controlData.tilt.pitch -= 10;
-    break;
-  case "s":
-    controlData.tilt.pitch += 10;
-    break;
-  case "z":
-    controlData.speed = 0;
-    controlData.turnAngle = 0;
-    controlData.tilt.roll = 0;
-    controlData.tilt.pitch = 0;
-    break;
-  case "t":
-    controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
-    break;
-  case "y":
-    controlData.updateInputMode = manualDrive;
-    break;
+    case 'up':
+      controlData.speed += 10;
+      break;
+    case 'down':
+      controlData.speed -= 10;
+      break;
+    case 'left':
+      controlData.turnAngle -= 10;
+      break;
+    case 'right':
+      controlData.turnAngle += 10;
+      break;
+    case 'q':
+      controlData.tilt.roll -= 10;
+      break;
+    case 'w':
+      controlData.tilt.roll += 10;
+      break;
+    case 'a':
+      controlData.tilt.pitch -= 10;
+      break;
+    case 's':
+      controlData.tilt.pitch += 10;
+      break;
+    case 'z':
+      controlData.speed = 0;
+      controlData.turnAngle = 0;
+      controlData.tilt.roll = 0;
+      controlData.tilt.pitch = 0;
+      break;
+    case 't':
+      controlData.forceState = controlData.state == 'Manual' ? 'Drive' : 'Manual';
+      break;
+    case 'y':
+      controlData.updateInputMode = manualDrive;
+      break;
   }
   
   checkMaximums(controlData);
@@ -43,70 +43,70 @@ function stepByStep(controlData) {
   
 function manualDrive(controlData) {
   switch (controlData.input) {
-  case "up":
-    if (controlData.speed < 0)
-      controlData.speed = 0;
-    else
-      controlData.speed += 10;
+    case 'up':
+      if (controlData.speed < 0)
+        controlData.speed = 0;
+      else
+        controlData.speed += 10;
 
-    controlData.turnAngle = 0;
-    break;
-  case "down":
-    if (controlData.speed > 0)
-      controlData.speed = 0;
-    else
-      controlData.speed -= 10;
+      controlData.turnAngle = 0;
+      break;
+    case 'down':
+      if (controlData.speed > 0)
+        controlData.speed = 0;
+      else
+        controlData.speed -= 10;
 
-    controlData.turnAngle = 0;
-    break;
-  case "left":
-    if (controlData.turnAngle > 0) 
-      controlData.turnAngle = -10;
-    else
-      controlData.turnAngle -= 10;
-    break;
-  case "right":
-    if (controlData.turnAngle < 0) 
-      controlData.turnAngle = 10;
-    else
-      controlData.turnAngle += 10;
-    break;
-  case "q":
-    if (controlData.tilt.roll > 0)
+      controlData.turnAngle = 0;
+      break;
+    case 'left':
+      if (controlData.turnAngle > 0) 
+        controlData.turnAngle = -10;
+      else
+        controlData.turnAngle -= 10;
+      break;
+    case 'right':
+      if (controlData.turnAngle < 0) 
+        controlData.turnAngle = 10;
+      else
+        controlData.turnAngle += 10;
+      break;
+    case 'q':
+      if (controlData.tilt.roll > 0)
+        controlData.tilt.roll = 0;
+      else
+        controlData.tilt.roll -= 10;
+      break;
+    case 'w':
+      if (controlData.tilt.roll < 0)
+        controlData.tilt.roll = 0;
+      else
+        controlData.tilt.roll += 10;
+      break;
+    case 'a':
+      if (controlData.tilt.pitch > 0)
+        controlData.tilt.pitch = 0;
+      else
+        controlData.tilt.pitch -= 10;
+      break;
+    case 's':
+      if (controlData.tilt.pitch < 0)
+        controlData.tilt.pitch = 0;
+      else
+        controlData.tilt.pitch += 10;
+      break;
+    case 'z':
+      controlData.speed = 0;
+      controlData.turnAngle = 0;
       controlData.tilt.roll = 0;
-    else
-      controlData.tilt.roll -= 10;
-    break;
-  case "w":
-    if (controlData.tilt.roll < 0)
-      controlData.tilt.roll = 0;
-    else
-      controlData.tilt.roll += 10;
-    break;
-  case "a":
-    if (controlData.tilt.pitch > 0)
       controlData.tilt.pitch = 0;
-    else
-      controlData.tilt.pitch -= 10;
-    break;
-  case "s":
-    if (controlData.tilt.pitch < 0)
-      controlData.tilt.pitch = 0;
-    else
-      controlData.tilt.pitch += 10;
-    break;
-  case "z":
-    controlData.speed = 0;
-    controlData.turnAngle = 0;
-    controlData.tilt.roll = 0;
-    controlData.tilt.pitch = 0;
-    break;
-  case "t":
-    controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
-    break;
-  case "y":
-    controlData.updateInputMode = arcadeDrive;
-    break;
+      break;
+    case 't':
+      controlData.forceState = controlData.state == 'Manual' ? 'Drive' : 'Manual';
+      break;
+    case 'y':
+      controlData.updateInputMode = arcadeDrive;
+      break;
   }
   
   checkMaximums(controlData);
@@ -120,38 +120,38 @@ function arcadeDrive(controlData) {
   controlData.tilt.pitch = 0;
 
   switch (controlData.input) {
-  case "up":
-    controlData.speed = 20;
-    break;
-  case "down":
-    controlData.speed = -20;
-    break;
-  case "left":
-    controlData.turnAngle = -10;
-    break;
-  case "right":
-    controlData.turnAngle = 10;
-    break;
-  case "q":
-    controlData.tilt.roll = -10;
-    break;
-  case "w":
-    controlData.tilt.roll = 10;
-    break;
-  case "a":
-    controlData.tilt.pitch = -10;
-    break;
-  case "s":
-    controlData.tilt.pitch = 10;
-    break;
-  case "z":
-    break;
-  case "t":
-    controlData.forceState = controlData.state == "Manual" ? "Drive" : "Manual";
-    break;
-  case "y":
-    controlData.updateInputMode = stepByStep;
-    break;
+    case 'up':
+      controlData.speed = 20;
+      break;
+    case 'down':
+      controlData.speed = -20;
+      break;
+    case 'left':
+      controlData.turnAngle = -10;
+      break;
+    case 'right':
+      controlData.turnAngle = 10;
+      break;
+    case 'q':
+      controlData.tilt.roll = -10;
+      break;
+    case 'w':
+      controlData.tilt.roll = 10;
+      break;
+    case 'a':
+      controlData.tilt.pitch = -10;
+      break;
+    case 's':
+      controlData.tilt.pitch = 10;
+      break;
+    case 'z':
+      break;
+    case 't':
+      controlData.forceState = controlData.state == 'Manual' ? 'Drive' : 'Manual';
+      break;
+    case 'y':
+      controlData.updateInputMode = stepByStep;
+      break;
   }
 }
 
