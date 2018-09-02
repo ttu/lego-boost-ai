@@ -1,4 +1,5 @@
 const keypress = require('keypress');
+const logUpdate = require('log-update');
 const HubControl = require('./src/hub-control');
 const inputs = require('./src/input-modes');
 
@@ -32,9 +33,8 @@ let uiUpdaterInteral = null;
 let selectedInputMode = inputs.arcadeDrive;
 
 function printUI() {
-  console.log('\x1Bc');
-  console.log(JSON.stringify(deviceInfo, null, 1));
-  console.log(JSON.stringify(controlData, null, 1));
+  const datas = [JSON.stringify(deviceInfo, null, 1), JSON.stringify(controlData, null, 1)]; 
+  logUpdate(datas);
 }
 
 keypress(process.stdin);
@@ -69,6 +69,7 @@ process.stdin.on('keypress', async (str, key) => {
 const hubControl = new HubControl(deviceInfo, controlData);
 hubControl.setNextState('Manual');
 hubControl.start().then(() => {
+  console.log('\x1Bc');
   uiUpdaterInteral = setInterval(() => {
     printUI();
     hubControl.update();
